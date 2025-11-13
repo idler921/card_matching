@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>廣普對譯</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>廣普對譯</h1>
+    <div id="difficulty-container">
+        <label for="difficulty-slider">Difficulty: <span id="difficulty-label">Easy</span></label>
+        <input type="range" id="difficulty-slider" min="4" max="8" step="2" value="4">
+    </div>
+    <div id="game-board"></div>
+    <div id="matched-pairs">
+        <h2>Matched Pairs: <span id="matched-count">0</span> | Failed Attempts: <span id="failed-count">0</span> | Time: <span id="timer">00:00</span></h2>
+        <ul id="pairs-list"></ul>
+    </div>
+    <div id="doll">
+        <div id="speech-bubble"></div>
+        <div id="doll-body">😊</div>
+    </div>
+    <script src="script.js?v=4"></script>
+</body>
+</html>

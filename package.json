@@ -1,0 +1,12 @@
+{
+  "name": "card-matcher",
+  "version": "1.0.0",
+  "description": "Card matching game",
+  "main": "script.js",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
