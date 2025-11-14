@@ -140,7 +140,7 @@ function checkMatch() {
             card2.classList.remove('flipped');
             card2.textContent = '';
             flippedCards = [];
-        }, 1000);
+        }, 500);
     }
 }
 
@@ -184,7 +184,7 @@ function showFeedback(message) {
     bubble.style.display = 'block';
     setTimeout(() => {
         bubble.style.display = 'none';
-    }, 1500);
+    }, 1000);
 }
 
 function peek() {
