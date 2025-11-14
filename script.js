@@ -205,9 +205,10 @@ async function saveRecord(name, time, difficulty, failedCount) {
     const record = {
         fields: {
             Name: name,
-            Time: time,
+            Datetime: new Date().toISOString(),
             Difficulty: difficulty,
-            Failed: failedCount
+            'Play Second': time,
+            'Failed Attempt': failedCount
         }
     };
     try {
@@ -231,7 +232,7 @@ async function saveRecord(name, time, difficulty, failedCount) {
 
 async function loadRecords() {
     try {
-        const response = await fetch(`${AIRTABLE_URL}?sort[0][field]=Time&sort[0][direction]=asc`, {
+        const response = await fetch(`${AIRTABLE_URL}?sort[0][field]=Play Second&sort[0][direction]=asc`, {
             headers: {
                 'Authorization': `Bearer ${AIRTABLE_API_KEY}`
             }
