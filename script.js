@@ -133,14 +133,13 @@ function checkMatch() {
     } else {
         failedCount++;
         updateCounts();
-        showFeedback(wrongPhrases[Math.floor(Math.random() * wrongPhrases.length)]);
-        setTimeout(() => {
+        showFeedback(wrongPhrases[Math.floor(Math.random() * wrongPhrases.length)], () => {
             card1.classList.remove('flipped');
             card1.textContent = '';
             card2.classList.remove('flipped');
             card2.textContent = '';
             flippedCards = [];
-        }, 0);
+        });
     }
 }
 
@@ -178,12 +177,13 @@ function updateTimer() {
     document.getElementById('timer').textContent = `${minutes}:${seconds}`;
 }
 
-function showFeedback(message) {
+function showFeedback(message, callback) {
     const bubble = document.getElementById('speech-bubble');
     bubble.textContent = message;
     bubble.style.display = 'block';
     setTimeout(() => {
         bubble.style.display = 'none';
+        if (callback) callback();
     }, 500);
 }
 
