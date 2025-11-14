@@ -1,5 +1,10 @@
 console.log('Script start');
 
+const AIRTABLE_API_KEY = 'YOUR_AIRTABLE_API_KEY';  // Replace with your actual API key
+const AIRTABLE_BASE_ID = 'appc3j9gdtQsGKbNR';
+const AIRTABLE_TABLE_ID = 'tblfoPLeTul6HacCf';
+const AIRTABLE_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}`;
+
 const allCards = [
     '飯盒', '盒飯',
     '睇波', '看球',
@@ -128,7 +133,15 @@ function checkMatch() {
         showFeedback(matchPhrases[Math.floor(Math.random() * matchPhrases.length)]);
         if (matchedCards.length === cards.length) {
             clearInterval(timerInterval);
-            setTimeout(() => alert('Congratulations! You matched all cards.'), 1000);
+            setTimeout(() => {
+                alert('Congratulations! You matched all cards.');
+                const name = prompt('Enter your name for the leaderboard:');
+                if (name) {
+                    const time = Math.floor((Date.now() - startTime) / 1000);
+                    const difficulty = cards.length / 2;  // Number of pairs
+                    saveRecord(name, time, difficulty, failedCount);
+                }
+            }, 1000);
         }
     } else {
         failedCount++;
@@ -187,6 +200,55 @@ function showFeedback(message, callback) {
     }, 500);
 }
 
+// Airtable API functions
+async function saveRecord(name, time, difficulty, failedCount) {
+    const record = {
+        fields: {
+            Name: name,
+            Time: time,
+            Difficulty: difficulty,
+            Failed: failedCount
+        }
+    };
+    try {
+        const response = await fetch(AIRTABLE_URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(record)
+        });
+        if (response.ok) {
+            console.log('Record saved successfully');
+        } else {
+            console.error('Failed to save record:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error saving record:', error);
+    }
+}
+
+async function loadRecords() {
+    try {
+        const response = await fetch(`${AIRTABLE_URL}?sort[0][field]=Time&sort[0][direction]=asc`, {
+            headers: {
+                'Authorization': `Bearer ${AIRTABLE_API_KEY}`
+            }
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data.records.map(record => record.fields);
+        } else {
+            console.error('Failed to load records:', response.statusText);
+            return [];
+        }
+    } catch (error) {
+        console.error('Error loading records:', error);
+        return [];
+    }
+}
+
 function peek() {
     const allCardsElements = document.querySelectorAll('.card');
     allCardsElements.forEach(card => {
@@ -228,3 +290,10 @@ console.log('Calling setDifficulty(4)');
 setDifficulty(4);
 
 console.log('Script end');
+
+// Load leaderboard on page load
+window.addEventListener('load', async () => {
+    const records = await loadRecords();
+    console.log('Leaderboard records:', records);
+    // TODO: Display in UI, e.g., update a #leaderboard div
+});
