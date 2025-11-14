@@ -295,6 +295,22 @@ console.log('Script end');
 // Load leaderboard on page load
 window.addEventListener('load', async () => {
     const records = await loadRecords();
-    console.log('Leaderboard records:', records);
-    // TODO: Display in UI, e.g., update a #leaderboard div
+    updateLeaderboard(records);
+});
+
+// Leaderboard functions
+function updateLeaderboard(records) {
+    const list = document.getElementById('records-list');
+    list.innerHTML = records.slice(0, 10).map(r => `<li>${r.Name}: ${r['Play Second']}s (${r.Difficulty} pairs, ${r['Failed Attempt']} fails) - ${new Date(r.Datetime).toLocaleString()}</li>`).join('');
+}
+
+document.getElementById('leaderboard-link').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const records = await loadRecords();
+    updateLeaderboard(records);
+    document.getElementById('leaderboard-modal').style.display = 'flex';
+});
+
+document.getElementById('close-leaderboard').addEventListener('click', () => {
+    document.getElementById('leaderboard-modal').style.display = 'none';
 });
