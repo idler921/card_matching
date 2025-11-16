@@ -134,10 +134,11 @@ function checkMatch() {
         if (matchedCards.length === cards.length) {
             clearInterval(timerInterval);
             setTimeout(() => {
+                const time = Math.floor((Date.now() - startTime) / 1000);
                 alert('Congratulations! You matched all cards.');
                 const name = prompt('Enter your name for the leaderboard:');
                 if (name) {
-                    const time = Math.floor((Date.now() - startTime) / 1000);
+                    // const time = Math.floor((Date.now() - startTime) / 1000);
                     const difficulty = cards.length / 2;  // Number of pairs
                     saveRecord(name, time, difficulty, failedCount);
                 }
@@ -302,7 +303,7 @@ window.addEventListener('load', async () => {
 // Leaderboard functions
 function updateLeaderboard(records) {
     const list = document.getElementById('records-list');
-    list.innerHTML = records.slice(0, 20).map(r => `<li>${r.Name}: ${r['Play Second']}s (${r.Difficulty} pairs, ${r['Failed Attempt']} fails) - ${new Date(r.Datetime).toLocaleString()}</li>`).join('');
+    list.innerHTML = records.slice(0, 100).map(r => `<li>${r.Name}: ${r['Play Second']}s (${r.Difficulty} pairs, ${r['Failed Attempt']} fails) - ${new Date(r.Datetime).toLocaleString()}</li>`).join('');
 }
 
 document.getElementById('leaderboard-link').addEventListener('click', async (e) => {
@@ -315,3 +316,21 @@ document.getElementById('leaderboard-link').addEventListener('click', async (e) 
 document.getElementById('close-leaderboard').addEventListener('click', () => {
     document.getElementById('leaderboard-modal').style.display = 'none';
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
