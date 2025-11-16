@@ -1,6 +1,6 @@
 console.log('Script start');
 
-const AIRTABLE_API_KEY = 'YOUR_AIRTABLE_API_KEY';  // Replace with your actual API key
+let AIRTABLE_API_KEY;  // Will be loaded dynamically
 const AIRTABLE_BASE_ID = 'appc3j9gdtQsGKbNR';
 const AIRTABLE_TABLE_ID = 'tblfoPLeTul6HacCf';
 const AIRTABLE_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}`;
@@ -201,6 +201,19 @@ function showFeedback(message, callback) {
 }
 
 // Airtable API functions
+async function loadApiKey() {
+    try {
+        const response = await fetch('https://office.kingswine.hk/static/airtable.txt');
+        if (response.ok) {
+            AIRTABLE_API_KEY = await response.text();
+            console.log('API key loaded successfully');
+        } else {
+            console.error('Failed to load API key:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error loading API key:', error);
+    }
+}
 async function saveRecord(name, time, difficulty, failedCount) {
     const record = {
         fields: {
@@ -294,6 +307,8 @@ console.log('Script end');
 
 // Load leaderboard on page load
 window.addEventListener('load', async () => {
+    await loadApiKey();  // Load API key first
+    testAirtable();  // Test connection
     const records = await loadRecords();
     updateLeaderboard(records);
 });
