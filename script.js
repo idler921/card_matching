@@ -302,7 +302,7 @@ window.addEventListener('load', async () => {
 // Leaderboard functions
 function updateLeaderboard(records) {
     const list = document.getElementById('records-list');
-    list.innerHTML = records.slice(0, 10).map(r => `<li>${r.Name}: ${r['Play Second']}s (${r.Difficulty} pairs, ${r['Failed Attempt']} fails) - ${new Date(r.Datetime).toLocaleString()}</li>`).join('');
+    list.innerHTML = records.slice(0, 20).map(r => `<li>${r.Name}: ${r['Play Second']}s (${r.Difficulty} pairs, ${r['Failed Attempt']} fails) - ${new Date(r.Datetime).toLocaleString()}</li>`).join('');
 }
 
 document.getElementById('leaderboard-link').addEventListener('click', async (e) => {
