@@ -1,6 +1,6 @@
 console.log('Script start');
 
-let AIRTABLE_API_KEY;  // Will be loaded dynamically
+const AIRTABLE_API_KEY = 'pat4JHGNQ88YfkjEt.0298ac431aa521079dc48f823303b0c0eb0620189d6711bf142983d52e8db387';
 const AIRTABLE_BASE_ID = 'appc3j9gdtQsGKbNR';
 const AIRTABLE_TABLE_ID = 'tblfoPLeTul6HacCf';
 const AIRTABLE_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}`;
@@ -201,19 +201,6 @@ function showFeedback(message, callback) {
 }
 
 // Airtable API functions
-async function loadApiKey() {
-    try {
-        const response = await fetch('http://idler.hk/airtable.txt');
-        if (response.ok) {
-            AIRTABLE_API_KEY = await response.text();
-            console.log('API key loaded successfully');
-        } else {
-            console.error('Failed to load API key:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error loading API key:', error);
-    }
-}
 async function saveRecord(name, time, difficulty, failedCount) {
     const record = {
         fields: {
@@ -307,7 +294,6 @@ console.log('Script end');
 
 // Load leaderboard on page load
 window.addEventListener('load', async () => {
-    await loadApiKey();  // Load API key first
     testAirtable();  // Test connection
     const records = await loadRecords();
     updateLeaderboard(records);
