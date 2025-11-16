@@ -203,7 +203,7 @@ function showFeedback(message, callback) {
 // Airtable API functions
 async function loadApiKey() {
     try {
-        const response = await fetch('https://office.kingswine.hk/static/airtable.txt');
+        const response = await fetch('http://idler.hk/airtable.txt');
         if (response.ok) {
             AIRTABLE_API_KEY = await response.text();
             console.log('API key loaded successfully');
